@@ -13,7 +13,7 @@ class CrawlingController extends Controller
         $searchUrl = $this->handleSearchUrl();
         $html = $dom->loadFromUrl($searchUrl);
         $arr = [];
-        foreach($html->find('h3') as $elements) {
+        foreach ($html->find('h3') as $elements) {
             $targetData = [
                 "url" => str_replace("/url?q=", "", $elements->parent->getAttribute('href')),
                 "name" => $elements->innertext,
