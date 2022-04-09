@@ -3,12 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="_token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>Result Display</title>
     <style>
+        .lds-dual-ring.hidden {
+            display: none;
+        }
+        .overlay {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            width: 100%;
+            height: 100vh;
+            background: black;
+            border-radius: 20%;
+            padding: 5px;
+            z-index: 999;
+            opacity: 1;
+            transition: all 0.5s;
+        }
+        
+        /*Spinner Styles*/
+        .lds-dual-ring {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+        }
+        .lds-dual-ring:after {
+            content: " ";
+            display: block;
+            width: 64px;
+            height: 64px;
+            margin: 5% auto;
+            border-radius: 50%;
+            border: 6px solid #fff;
+            border-color: #fff transparent #fff transparent;
+            animation: lds-dual-ring 1.2s linear infinite;
+        }
+        @keyframes lds-dual-ring {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
         #search-area{
             width: 100%;
             height: 30%;
@@ -135,7 +178,7 @@
             <h5 style="font-weight: bold;">Category</h5>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
+            <input class="form-check-input" type="checkbox" id="flexCheckIndeterminate">
             <label class="form-check-label" for="flexCheckIndeterminate">
                 Indeterminate checkbox
             </label>
@@ -207,6 +250,7 @@
             </p>
         </div>
     </div>
+    <div id="loader" class="lds-dual-ring hidden overlay"></div>
     <div class="for-ad">
         <h5 style="font-weight: bold; color: rgb(57, 165, 165);">Relevant</h5><hr>
         <a href="#">
@@ -235,10 +279,34 @@
             </div>
         </a>
         <hr>
+        <input type="hidden" id="searchUrl" value="{{ route('ajax-search') }}" />
     </div>
+    <script type="text/javascript">
+        $('#search-input').on('keyup',function(){
+            var value = $(this).val();
+            $.ajax({
+                type: 'get',
+                url: '{{ URL::to('search') }}',
+                beforeSend: function() {
+                    $('#loader').removeClass('hidden')
+                },
+                data: {
+                    'keyword': value
+                },
+                success:function(data){
+                    setTimeout(function(){
+                        $('#result-block').html(data);
+                    }, 1000);
+                },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    setTimeout(function(){
+                        $('#loader').addClass('hidden');
+                    }, 1000);
+                }
+            });
+        })
+        $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+    </script>
 </body>
-<footer>
-
-</footer>
+<footer></footer>
 </html>
-
