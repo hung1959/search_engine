@@ -76,3 +76,8 @@ ________________________________________________________________________________
 
 4. Cài thư viện: composer require paquettg/php-html-parser --with-all-dependencies
 5. php artisan serve
+6. Tạo database sau đó config ở .env. Rồi chạy lệnh `php artisan migrate`
+
+
+## Last step
+run app: `php artisan serve`
