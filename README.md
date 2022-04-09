@@ -62,3 +62,17 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+____________________________________________________________________________________________________________
+## Project Note:
+
+1. Install Composer 
+2. Clone Project
+3. Chạy các lệnh sau: 
+`php artisan vendor:publish --tag=laravel-assets --ansi --force
+ php artisan key:generate --ansi
+`
+4. Cài thư viện: composer require paquettg/php-html-parser --with-all-dependencies
+5. php artisan serve
