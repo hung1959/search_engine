@@ -11,9 +11,36 @@ class CrawlingController extends Controller
     {
         $dom = new Dom;
         $searchUrl = $this->handleSearchUrl();
-        $dom->loadFromUrl($searchUrl);
+        $html = $dom->loadFromUrl($searchUrl);
         $result = $dom->outerHtml;
-        $this->regexResult($result);
+        $arr = [];
+        $parentIndex = 0;
+        foreach($html->find('h3') as $elements) {
+            $childIndex = 0;
+            foreach($html->find('span a') as $elements) {
+                if ($parentIndex == $childIndex)
+                {
+                    $GLOBALS['link'] = str_replace("/url?q=", "", $elements->getAttribute('href'));
+                }
+                $childIndex += 1;
+            }
+            $descIndex = 0;
+            foreach ($html->find('.MSiauf div') as $description)
+            {
+                if ($parentIndex == $descIndex)
+                {
+                    $targetData = [
+                        "name" => $elements->innertext,
+                        "url" => $GLOBALS['link'],
+                        "description" => $description->innertext
+                    ];
+                    array_push($arr, $targetData);
+                }
+                $descIndex += 1;
+            }
+            $parentIndex += 1;
+        }
+        dd($arr);
     }
 
     public function handleSearchUrl()
@@ -27,20 +54,5 @@ class CrawlingController extends Controller
     public function convertingSearchKey($searchKey)
     {
         return str_replace(' ','+', $searchKey);
-    }
-
-    public function regexResult($result)
-    {
-        $firstString = '</div></div><div><div class'; 
-        $splitPos = strpos($result,$firstString);
-        $result = substr($result, $splitPos);
-        $lastString = 'T?m ki&#7871;m c? li?n quan';
-        $splitPos = strpos($result,$lastString);
-        $remove = substr($result, $splitPos);
-        $result = str_replace($remove,"",$result);
-        #$a = preg_match( '/<h3>(.*?)<\/div>/', $result, $match );
-        #$pieces = explode("<h3>", $result);
-    
-        dd($result);
     }
 }
