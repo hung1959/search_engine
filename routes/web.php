@@ -19,6 +19,7 @@ use App\Http\Controllers\CrawlingController;
 // });
 
 Route::get('/', [CrawlingController::class, 'index']);
+Route::get('/search', [CrawlingController::class, 'ajaxRequest'])->name('ajax-search');
 Route::get('/home', function () {
   return view('index');
 });
