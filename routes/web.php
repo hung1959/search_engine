@@ -19,3 +19,6 @@ use App\Http\Controllers\CrawlingController;
 // });
 
 Route::get('/', [CrawlingController::class, 'index']);
+Route::get('/home', function () {
+  return view('index');
+});
