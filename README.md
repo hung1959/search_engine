@@ -71,8 +71,8 @@ ________________________________________________________________________________
 1. Install Composer 
 2. Clone Project
 3. Chạy các lệnh sau: 
-`php artisan vendor:publish --tag=laravel-assets --ansi --force
- php artisan key:generate --ansi
-`
+`php artisan vendor:publish --tag=laravel-assets --ansi --force`
+`php artisan key:generate --ansi`
+
 4. Cài thư viện: composer require paquettg/php-html-parser --with-all-dependencies
 5. php artisan serve
