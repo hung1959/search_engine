@@ -18,8 +18,11 @@ use App\Http\Controllers\CrawlingController;
 //     return view('welcome');
 // });
 
-Route::get('/', [CrawlingController::class, 'index']);
+#Route::get('/', [CrawlingController::class, 'index']);
 Route::get('/search', [CrawlingController::class, 'ajaxRequest'])->name('ajax-search');
-Route::get('/home', function () {
-  return view('index');
+Route::get('/suggest-search', [CrawlingController::class, 'suggestKeyword'])->name('suggest-search');
+Route::get('/crawling', function () {
+  return view('crawl');
 });
+Route::post('/crawling', [CrawlingController::class, 'submitKeywordCrawl'])->name('crawling-data');
+Route::get('/', [CrawlingController::class, 'index']);

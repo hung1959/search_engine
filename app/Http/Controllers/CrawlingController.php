@@ -2,36 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Search;
+use App\Models\data_crawl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PHPHtmlParser\Dom;
+use PHPHtmlParser\Options;
 
 class CrawlingController extends Controller
 {
+
     public function index()
     {
-        $dom = new Dom;
-        $searchUrl = $this->handleSearchUrl();
-        $html = $dom->loadFromUrl($searchUrl);
-        $arr = [];
-        foreach ($html->find('h3') as $elements) {
-            $targetData = [
-                "url" => str_replace("/url?q=", "", $elements->parent->getAttribute('href')),
-                "name" => $elements->innertext,
-                "description" => $elements->parent->parent->parent->find('div div div div')->innertext
-            ];
-            array_push($arr, $targetData);
-        }
-        dd($arr);
+        $result = data_crawl::all()->pluck('title');
+        return view('index', compact('result'));
+
     }
 
-    public function handleSearchUrl()
+    public function submitKeywordCrawl(Request $request)
     {
-        $searchUrl = "https://www.google.com/search?q=";
-        $key = "cach hoc tieng nhat"; # get from user request
-        $searchKey = $this->convertingSearchKey($key);
-        return "${searchUrl}${searchKey}";
+        $keyword = $this->convertingSearchKey($request->keyword);
+        $url = $this->handleSearchUrl($keyword);
+        return $this->crawlingData($url);
     }
 
     public function convertingSearchKey($searchKey)
@@ -39,32 +30,44 @@ class CrawlingController extends Controller
         return str_replace(' ', '+', $searchKey);
     }
 
+    public function handleSearchUrl($keyword)
+    {
+        $searchUrl = "https://www.google.com/search?q=";
+        return "${searchUrl}${keyword}";
+    }
+
+    public function crawlingData($url)
+    {
+        $dom = new Dom;
+        $html = $dom->loadFromUrl($url, (new Options())->setenforceEncoding('UTF-8'));
+        foreach ($html->find('h3') as $elements) {
+            $description = $elements->parent->parent->parent->find('div div div div')->innertext;
+            $length = strpos($description, "?");
+            $description = substr($description, $length + 1);  
+            data_crawl::create([
+                'title' => $elements->innertext,
+                'description' => $description,
+                'url' => str_replace("/url?q=", "", $elements->parent->getAttribute('href'))
+            ]);
+        }
+
+        return "Data has been crawled successfully!";
+    }
+
     public function ajaxRequest(Request $request)
     {
         if ($request->ajax()) {
             $keyword = $request->keyword;
+            if (isset($request->skip)) {
+                $skip = $request->skip;
+            } else {
+                $skip = 0;
+            }
+            $results = data_crawl::where('title', 'like', "%${keyword}%")->limit(10)->skip($skip)->get();
             $response = '';
-            #$results = DB::table('products')->where('title', 'LIKE', '%' . $request->search . '%')->get();
-            $results = [
-                [
-                    "name" => "ABC",
-                    "url" => "aaaa",
-                    "description" => "dsdsah fhdksahd"
-                ],
-                [
-                    "name" => "ABC",
-                    "url" => "aaaa",
-                    "description" => "dsdsah fhdksahd"
-                ],
-                [
-                    "name" => "ABC",
-                    "url" => "aaaa",
-                    "description" => "dsdsah fhdksahd"
-                ]
-            ];
             if ($results) {
                 foreach ($results as $key => $result) {
-                    $name = $result["name"];
+                    $name = $result["title"];
                     $description = $result["description"];
                     $url = $result["url"];
                     $response .= "
@@ -76,9 +79,8 @@ class CrawlingController extends Controller
                         <p>${description}</p>
                     </div>";
                 }
+                return response($response);
             }
-            
-            return response($response);
         }
     }
 }
