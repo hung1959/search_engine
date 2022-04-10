@@ -15,7 +15,6 @@ class CrawlingController extends Controller
     {
         $result = data_crawl::all()->pluck('title');
         return view('index', compact('result'));
-
     }
 
     public function submitKeywordCrawl(Request $request)
@@ -33,7 +32,7 @@ class CrawlingController extends Controller
     public function handleSearchUrl($keyword)
     {
         $searchUrl = "https://www.google.com/search?q=";
-        return "${searchUrl}${keyword}";
+        return "${searchUrl}${keyword}+review+english";
     }
 
     public function crawlingData($url)
@@ -41,11 +40,11 @@ class CrawlingController extends Controller
         $dom = new Dom;
         $html = $dom->loadFromUrl($url, (new Options())->setenforceEncoding('UTF-8'));
         foreach ($html->find('h3') as $elements) {
-            $description = $elements->parent->parent->parent->find('div div div div')->innertext;
+            $description = $elements->parent->parent->parent->find('div div div div')->innertext();
             $length = strpos($description, "?");
-            $description = substr($description, $length + 1);  
+            $description = substr($description, $length + 1);
             data_crawl::create([
-                'title' => $elements->innertext,
+                'title' => $elements->innertext(),
                 'description' => $description,
                 'url' => str_replace("/url?q=", "", $elements->parent->getAttribute('href'))
             ]);
@@ -63,7 +62,7 @@ class CrawlingController extends Controller
             } else {
                 $skip = 0;
             }
-            $results = data_crawl::where('title', 'like', "%${keyword}%")->limit(10)->skip($skip)->get();
+            $results = data_crawl::SearchReview($keyword)->limit(10)->skip($skip)->get();
             $response = '';
             if ($results) {
                 foreach ($results as $key => $result) {

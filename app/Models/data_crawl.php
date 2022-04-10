@@ -9,6 +9,13 @@ class data_crawl extends Model
 {
     use HasFactory; // Cái này dùng làm gì quên rồi
 
+    /**
+     * The columns of the full text index
+     */
+    protected $searchable = [
+        'title'
+    ];
+
     protected $fillable = [
         'title',
         'url',
@@ -38,8 +45,9 @@ class data_crawl extends Model
         return $searchTerm;
     }
 
-    public function scopeFullTextSearch($query, $columns, $term)
+    public function scopeSearchReview($query, $term)
     {
+        $columns = implode(',', $this->searchable); // $columns = $this->searchable;
         $query->whereRaw("MATCH ({$columns}) AGAINST (? IN BOOLEAN MODE)", $this->fullTextWildcards($term));
 
         return $query;
