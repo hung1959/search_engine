@@ -1,7 +1,14 @@
 $('#load-more').hide();
 var url = $('#searchUrl').val();
-$('#search-input').on('change',function(){
-  var value = $(this).val();
+$("#search-input").keydown(function (e) {
+    if (e.keyCode == 13) {
+        e.preventDefault();
+        ajaxRequest();
+    }
+  });
+  
+function ajaxRequest() {
+  var value = $('#search-input').val();
   if(value == ''){
       $('#message-loadmore').hide();
       $('#load-more').show();
@@ -18,8 +25,11 @@ $('#search-input').on('change',function(){
           },
           success:function(data){
               setTimeout(function(){
-                $('#load-more').show();
-                  $('#display-result').html(data);    
+                $('#load-more').hide();
+                  if(data != '') {
+                    $('#load-more').show();
+                  }  
+                  $('#display-result').html(data);  
               }, 1000);
           },
           complete: function () {
@@ -28,8 +38,8 @@ $('#search-input').on('change',function(){
               }, 1000);
           }
       });
-  }
-});
+  } 
+}
 
 $('#message-loadmore').hide();
 $('#load-more').on('click', function(){
