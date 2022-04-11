@@ -120,7 +120,7 @@
         </div>
         <input type="hidden" id="searchUrl" value="{{ route('ajax-search') }}" />
         <input type="hidden" id="suggestUrl" value="{{ route('suggest-search') }}" />
-        <input type="hidden" name="suggestTitle" id="suggestTitles" value="{{ $searchHistories }}" />
+        <input type="hidden" name="suggestTitle" id="suggestTitles" value="{{ ($searchHistories) }}" />
     </div>
     <script src="{{ asset('js/ajax.js')}}"></script>
     <script src="{{ asset('js/auto-complete.js')}}"></script>

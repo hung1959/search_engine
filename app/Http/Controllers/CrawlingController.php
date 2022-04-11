@@ -17,6 +17,7 @@ class CrawlingController extends Controller
     {
         $searchHistories = search_history::orderBy('created_at','desc')->pluck('key_search');
         $searchHistories = $searchHistories->unique()->take(5);
+        $searchHistories = $this->handleKeySearch($searchHistories);
         return view('index', compact('searchHistories'));
     }
 
@@ -92,5 +93,22 @@ class CrawlingController extends Controller
                 return response($response);
             }
         }
+    }
+
+    public function handleKeySearch($keywords)
+    {
+        $result = "[";
+        $index = 0;
+        foreach ($keywords as $keyword){
+            if ($index == 0)
+            {
+                $result = $result . "$keyword";
+            } else {
+                $result = $result . ",$keyword";
+            }
+            $index++;
+        }
+        $result .= "]";
+        return $result;
     }
 }
