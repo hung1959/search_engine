@@ -40,17 +40,17 @@ class CrawlingController extends Controller
         $dom = new Dom;
         $html = $dom->loadFromUrl($url, (new Options())->setenforceEncoding('UTF-8'));
         foreach ($html->find('h3') as $elements) {
-            $description = $elements->parent->parent->parent->find('div div div div')->innertext();
-            $length = strpos($description, "?");
-            $description = substr($description, $length + 1);
+            $urlLength = strpos($elements->parent->getAttribute('href'), "=");
+            $targetUrl = substr($elements->parent->getAttribute('href'), $urlLength + 1);
             data_crawl::create([
                 'title' => $elements->innertext(),
-                'description' => $description,
-                'url' => str_replace("/url?q=", "", $elements->parent->getAttribute('href'))
+                'description' => $elements->parent->parent->parent->lastChild()->innertext(),
+                'url' => $targetUrl
             ]);
         }
 
-        return "Data has been crawled successfully!";
+        $message = "Data has been crawled successfully!";
+        return view('crawl', compact('message'));
     }
 
     public function ajaxRequest(Request $request)
@@ -69,10 +69,10 @@ class CrawlingController extends Controller
                     $name = $result["title"];
                     $description = $result["description"];
                     $url = $result["url"];
+                    #<label class='label-link'>${name}</label>
                     $response .= "
                     <div class='block'>
                         <a href='${url}'>
-                            <label class='label-link'>${name}</label>
                             <h5 style='color: rgb(57, 165, 165);'>${name}</h5>
                         </a>
                         <p>${description}</p>

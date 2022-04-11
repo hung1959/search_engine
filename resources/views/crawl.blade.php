@@ -8,6 +8,14 @@
 </head>
 <body>
   <div>
+    <h2 style="text-align: center">
+        @php
+            if (isset($message))
+            { 
+                  echo $message;
+            }   
+        @endphp
+    </h2>
     <form action="{{ route('crawling-data') }}" method="post">
         @csrf
         <input type="text" name="keyword" />
