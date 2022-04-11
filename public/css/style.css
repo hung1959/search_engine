@@ -1,6 +1,7 @@
 .lds-dual-ring.hidden {
     display: none;
 }
+
 .overlay {
     position: fixed;
     top: 40%;
@@ -21,6 +22,7 @@
     width: 80px;
     height: 80px;
 }
+
 .lds-dual-ring:after {
     content: " ";
     display: block;
@@ -32,21 +34,26 @@
     border-color: #fff transparent #fff transparent;
     animation: lds-dual-ring 1.2s linear infinite;
 }
+
 @keyframes lds-dual-ring {
     0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
     }
 }
+
 * {
     box-sizing: border-box;
 }
+
 .autocomplete {
     position: relative;
     display: inline-block;
 }
+
 .autocomplete-items {
     position: absolute;
     border: 1px solid #d4d4d4;
@@ -63,31 +70,34 @@
 .autocomplete-items div {
     padding: 10px;
     cursor: pointer;
-    background-color: #fff; 
+    background-color: #fff;
 }
 
 /*when hovering an item:*/
 .autocomplete-items div:hover {
-    background-color: #e9e9e9; 
+    background-color: #e9e9e9;
 }
 
 /*when navigating through the items using the arrow keys:*/
 .autocomplete-active {
-    background-color: DodgerBlue !important; 
-    color: #ffffff; 
+    background-color: DodgerBlue !important;
+    color: #ffffff;
 }
-#search-area{
+
+#search-area {
     width: 100%;
     height: 30%;
     padding-left: 20%;
     padding-right: 20%;
     background-color: #E5E6ED;
 }
-#search{
+
+#search {
     position: relative;
     margin-left: 100px;
     margin-bottom: 50px;
 }
+
 /* #search-input{
     padding: 12px 20px 12px 40px;
     width: 500px;
@@ -103,11 +113,13 @@
     border-radius: 20px;
     box-shadow: 0 0 1px grey;
 }
+
 span.deleteicon {
     position: relative;
     display: inline-flex;
     align-items: center;
 }
+
 /* span.deleteicon span {
     position: absolute;
     display: block;
@@ -136,24 +148,29 @@ span.deleteicon span {
     line-height: 2em;
     cursor: pointer;
 }
+
 span.deleteicon input {
     padding-right: 18px;
     box-sizing: border-box;
 }
-svg{
+
+svg {
     position: absolute;
     top: 39%;
     left: 1%;
 }
-a{
+
+a {
     text-decoration: none;
     color: black;
 }
-a:hover{
+
+a:hover {
     text-decoration: underline;
     color: black;
 }
-#select-menu{
+
+#select-menu {
     width: 20%;
     display: inline-block;
     margin-left: 5%;
@@ -161,26 +178,31 @@ a:hover{
     border: 2px solid rgb(57, 165, 165);
     border-radius: 10px;
 }
-#select-type{
+
+#select-type {
     background-color: rgb(57, 165, 165);
     padding: 5px 10px 2px 10px;
     border-radius: 5px;
     color: white;
     width: 100%;
 }
-.form-check{
+
+.form-check {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
 .form-check {
     display: block;
     min-height: 1.5rem;
     padding-left: 2.2em;
     margin-bottom: 0.125rem;
 }
+
 .form-check:not(:last-child) {
     border-bottom: 1px solid rgb(57, 165, 165);
 }
+
 #result-block {
     width: 35%;
     position: relative;
@@ -190,25 +212,31 @@ a:hover{
     padding: 10px;
     margin-bottom: 100px;
 }
-.label-link{
+
+.label-link {
     color: rgb(57, 165, 165);
 }
-a .label-link:hover{
+
+a .label-link:hover {
     cursor: pointer;
 }
-.for-ad{
+
+.for-ad {
     width: 20%;
     display: inline-block;
     margin-left: 100px;
     left: 65%;
     position: fixed;
 }
-.ad-text{
+
+.ad-text {
     display: inline;
 }
-header{
+
+header {
     padding: 5px 20px 15px 15px;
 }
+
 footer {
     width: 100%;
     position: absolute;
@@ -220,6 +248,7 @@ footer {
     font-weight: bold;
     position: fixed;
 }
+
 button {
     background: linear-gradient(-45deg, #3f00b5, #9f69fe, #27c8b7, #3f00b5);
     background-size: 800% 400%;
@@ -232,31 +261,32 @@ button {
     color: white;
     transition: all .5s ease-in-out;
     animation: gradient 10s infinite cubic-bezier(.62, .28, .23, .99) both;
-   }
-   
-   button:hover {
+}
+
+button:hover {
     animation: gradient 3s infinite;
     transform: scale(1.05);
-   }
-   
-   button:active {
+}
+
+button:active {
     animation: gradient 3s infinite;
     transform: scale(0.8);
-   }
-   
-   @keyframes gradient {
+}
+
+@keyframes gradient {
     0% {
-     background-position: 0% 50%;
+        background-position: 0% 50%;
     }
-   
+
     50% {
-     background-position: 100% 50%;
+        background-position: 100% 50%;
     }
-   
+
     100% {
-     background-position: 0% 50%;
+        background-position: 0% 50%;
     }
-   }
-.block > p {
+}
+
+.block>p {
     border-bottom: 2px solid rgb(57, 165, 165);
 }

@@ -15,7 +15,7 @@ class CrawlingController extends Controller
 
     public function index()
     {
-        $searchHistories = search_history::orderBy('created_at','desc')->pluck('key_search');
+        $searchHistories = search_history::orderBy('created_at', 'desc')->pluck('key_search');
         $searchHistories = $searchHistories->unique()->take(5);
         $searchHistories = $this->handleKeySearch($searchHistories);
         return view('index', compact('searchHistories'));
@@ -49,7 +49,7 @@ class CrawlingController extends Controller
             $position = strpos($targetUrl, "&sa=");
             if ($position == false) {
                 $position = strpos($targetUrl, "&amp");
-            } 
+            }
             $targetUrl = urldecode(substr($targetUrl, 0, $position));
             data_crawl::create([
                 'title' => $elements->innertext(),
@@ -84,7 +84,7 @@ class CrawlingController extends Controller
                     #<label class='label-link'>${name}</label>
                     $response .= "
                     <div class='block'>
-                        <a href='${url}'>
+                        <a target='_blank' href='${url}'>
                             <h5 style='color: rgb(57, 165, 165);'>${name}</h5>
                         </a>
                         <p>${description}</p>
@@ -99,9 +99,8 @@ class CrawlingController extends Controller
     {
         $result = "[";
         $index = 0;
-        foreach ($keywords as $keyword){
-            if ($index == 0)
-            {
+        foreach ($keywords as $keyword) {
+            if ($index == 0) {
                 $result = $result . "$keyword";
             } else {
                 $result = $result . ",$keyword";
