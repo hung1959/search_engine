@@ -1,10 +1,11 @@
+$('#load-more').hide();
 var url = $('#searchUrl').val();
 $('#search-input').on('change',function(){
   var value = $(this).val();
   if(value == ''){
       $('#message-loadmore').hide();
       $('#load-more').show();
-      $('#display-result').html('<center>Something you searched will displayed here.</center>');
+      $('#display-result').html('<center>The search result will display here.</center>');
   } else {
       $.ajax({
           type: 'get',
@@ -17,6 +18,7 @@ $('#search-input').on('change',function(){
           },
           success:function(data){
               setTimeout(function(){
+                $('#load-more').show();
                   $('#display-result').html(data);    
               }, 1000);
           },
@@ -53,7 +55,8 @@ $('#load-more').on('click', function(){
                   }, 1000);
               } else {
                   setTimeout(function(){
-                      $('#display-result').append(data);    
+                      $('#display-result').append(data);
+                      ('#load-more').show();   
                   }, 1000);
               }
           },
