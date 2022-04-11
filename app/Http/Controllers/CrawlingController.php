@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\data_crawl;
+use App\Models\search_history;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use PHPHtmlParser\Dom;
 use PHPHtmlParser\Options;
@@ -13,8 +15,9 @@ class CrawlingController extends Controller
 
     public function index()
     {
-        $result = data_crawl::all()->pluck('title');
-        return view('index', compact('result'));
+        $searchHistories = search_history::orderBy('created_at','desc')->pluck('key_search');
+        $searchHistories = $searchHistories->unique()->take(5);
+        return view('index', compact('searchHistories'));
     }
 
     public function submitKeywordCrawl(Request $request)
@@ -42,6 +45,11 @@ class CrawlingController extends Controller
         foreach ($html->find('h3') as $elements) {
             $urlLength = strpos($elements->parent->getAttribute('href'), "=");
             $targetUrl = substr($elements->parent->getAttribute('href'), $urlLength + 1);
+            $position = strpos($targetUrl, "&sa=");
+            if ($position == false) {
+                $position = strpos($targetUrl, "&amp");
+            } 
+            $targetUrl = urldecode(substr($targetUrl, 0, $position));
             data_crawl::create([
                 'title' => $elements->innertext(),
                 'description' => $elements->parent->parent->parent->lastChild()->innertext(),
@@ -57,6 +65,9 @@ class CrawlingController extends Controller
     {
         if ($request->ajax()) {
             $keyword = $request->keyword;
+            search_history::create([
+                'key_search' => $keyword
+            ]);
             if (isset($request->skip)) {
                 $skip = $request->skip;
             } else {
