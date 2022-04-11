@@ -26,7 +26,7 @@ class UpdateDataCrawlTable extends Migration
     public function down()
     {
         Schema::table('data_crawls', function (Blueprint $table) {
-            $table->dropIndex('title');
+            $table->dropIndex('data_crawls_title_fulltext');
         });
     }
 }
