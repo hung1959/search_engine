@@ -41,24 +41,30 @@ class CrawlingController extends Controller
 
     public function crawlingData($url)
     {
+        $count = 0;
         $dom = new Dom;
         $html = $dom->loadFromUrl($url, (new Options())->setenforceEncoding('UTF-8'));
         foreach ($html->find('h3') as $elements) {
-            $urlLength = strpos($elements->parent->getAttribute('href'), "=");
-            $targetUrl = substr($elements->parent->getAttribute('href'), $urlLength + 1);
-            $position = strpos($targetUrl, "&sa=");
-            if ($position == false) {
-                $position = strpos($targetUrl, "&amp");
+            $data = data_crawl::where('title', '=', $elements->innertext())->first();
+            if ($data === null) {
+                $urlLength = strpos($elements->parent->getAttribute('href'), "=");
+                $targetUrl = substr($elements->parent->getAttribute('href'), $urlLength + 1);
+                $position = strpos($targetUrl, "&sa=");
+                if ($position == false) {
+                    $position = strpos($targetUrl, "&amp");
+                }
+                $targetUrl = urldecode(substr($targetUrl, 0, $position));
+                data_crawl::create([
+                    'title' => $elements->innertext(),
+                    'description' => $elements->parent->parent->parent->lastChild()->innertext(),
+                    'url' => $targetUrl
+                ]);
+            } else {
+                $count++;
             }
-            $targetUrl = urldecode(substr($targetUrl, 0, $position));
-            data_crawl::create([
-                'title' => $elements->innertext(),
-                'description' => $elements->parent->parent->parent->lastChild()->innertext(),
-                'url' => $targetUrl
-            ]);
         }
 
-        $message = "Data has been crawled successfully!";
+        $message = "Data has been crawled successfully and ${count} data has existed";
         return view('crawl', compact('message'));
     }
 
