@@ -21,22 +21,12 @@ class CrawlingController extends Controller
         return view('index', compact('searchHistories'));
     }
 
-    public function submitKeywordCrawl(Request $request)
+    public function submitKeywordCrawl($requestKeyword)
     {
-        $keyword = $this->convertingSearchKey($request->keyword);
-        $url = $this->handleSearchUrl($keyword);
-        return $this->crawlingData($url);
-    }
-
-    public function convertingSearchKey($searchKey)
-    {
-        return str_replace(' ', '+', $searchKey);
-    }
-
-    public function handleSearchUrl($keyword)
-    {
+        $keyword = str_replace(' ', '+', $requestKeyword);
         $searchUrl = "https://www.google.com/search?q=";
-        return "${searchUrl}${keyword}+review+english";
+        $url = "${searchUrl}${keyword}+review+english";
+        $this->crawlingData($url);
     }
 
     public function crawlingData($url)
@@ -63,13 +53,11 @@ class CrawlingController extends Controller
                 $count++;
             }
         }
-
-        $message = "Data has been crawled successfully and ${count} data has existed";
-        return view('crawl', compact('message'));
     }
 
     public function ajaxRequest(Request $request)
     {
+        $this->submitKeywordCrawl($request->keyword);
         if ($request->ajax()) {
             $keyword = $request->keyword;
             search_history::create([
