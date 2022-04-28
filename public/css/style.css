@@ -86,16 +86,16 @@
 
 #search-area {
     width: 100%;
-    height: 30%;
     padding-left: 20%;
     padding-right: 20%;
     background-color: #E5E6ED;
+    z-index: 1;
 }
 
 #search {
+    width: 70%;
     position: relative;
-    margin-left: 100px;
-    margin-bottom: 50px;
+    float: left;
 }
 
 /* #search-input{
@@ -106,8 +106,8 @@
     box-shadow: 0 0 1px grey;
 } */
 #search-input {
-    padding: 30px 30px 30px 30px;
-    width: 1000px;
+    padding: 15px 30px 15px 30px;
+    width: 700px;
     margin: 15px;
     border: none;
     border-radius: 20px;
@@ -207,6 +207,7 @@ a:hover {
     width: 35%;
     position: relative;
     left: 30%;
+    margin-top: 12%;
     display: inline-block;
     border: 2px solid #eeeeee;
     padding: 10px;
@@ -225,7 +226,8 @@ a .label-link:hover {
     width: 20%;
     display: inline-block;
     margin-left: 100px;
-    left: 65%;
+    left: 0%;
+    top: 30%;
     position: fixed;
 }
 
@@ -241,7 +243,7 @@ footer {
     width: 100%;
     position: absolute;
     bottom: 0;
-    background-color: rgb(57, 165, 165);
+    background-image: linear-gradient(to bottom right, rgb(68, 186, 254), rgb(57, 165, 165));
     padding: 20px 20px 20px 20px;
     color: white;
     text-align: center;
@@ -289,4 +291,33 @@ button:active {
 
 .block>p {
     border-bottom: 2px solid rgb(57, 165, 165);
+}
+
+/* Add css */
+.other-function{
+    display: inline-block;
+    width: 20%;
+    left: 68%;
+    top: 30%;
+    position: fixed;
+}
+.explore-btn{
+    margin-top: 10px;
+    text-align: center;
+}
+a{
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: none;
+    color: rgb(68, 186, 254);
+}
+header{
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+}
+#search-area{
+    position: fixed;
+    top: 10%;
 }

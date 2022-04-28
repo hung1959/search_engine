@@ -12,91 +12,35 @@
     <title>Result Display</title>
 </head>
 <body>
-    <header style="background-color: rgb(57, 165, 165);">
+    <header style="background-image: linear-gradient(to bottom right, rgb(57, 165, 165), rgb(68, 186, 254));">
         <h3 style="text-align: center; margin-top: 20px; font-weight: bold; color: white;">Search Engine</h3>
     </header>
     <div id="search-area">
-        <div id="search">
-            <form autocomplete="off">
-                <div class="autocomplete" style="width: 700px;">
-                    <input id="search-input" type="search" class="deletable" placeholder="Type to search..."/>
-                </div>
-            </form>
-        </div>
+        <center>
+            <div id="search">
+                <form autocomplete="off">
+                    <div class="autocomplete">
+                        <input id="search-input" type="search" class="deletable" placeholder="Type to search..."/>
+                    </div>
+                </form>
+            </div>
+        </center>
     </div>
-    <div id="select-menu">
-        <div id="select-type">
-            <h5 style="font-weight: bold;">Category</h5>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
-            <label class="form-check-label" for="flexCheckIndeterminate">
-                Indeterminate checkbox
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
-            <label class="form-check-label" for="flexCheckIndeterminate">
-                Indeterminate checkbox
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
-            <label class="form-check-label" for="flexCheckIndeterminate">
-                Indeterminate checkbox
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
-            <label class="form-check-label" for="flexCheckIndeterminate">
-                Indeterminate checkbox
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
-            <label class="form-check-label" for="flexCheckIndeterminate">
-                Indeterminate checkbox
-            </label>
-        </div>
 
-        <div id="select-type">
-            <h5 style="font-weight: bold;">Category</h5>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="flexCheckIndeterminate">
-            <label class="form-check-label" for="flexCheckIndeterminate">
-                Indeterminate checkbox
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
-            <label class="form-check-label" for="flexCheckIndeterminate">
-                Indeterminate checkbox
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
-            <label class="form-check-label" for="flexCheckIndeterminate">
-                Indeterminate checkbox
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
-            <label class="form-check-label" for="flexCheckIndeterminate">
-                Indeterminate checkbox
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
-            <label class="form-check-label" for="flexCheckIndeterminate">
-                Indeterminate checkbox
-            </label>
-        </div>
-    </div>
     <div id="result-block">
         <div id="select-type">
-            <h5 style="font-weight: bold;">Search result</h5>
+            <h5 style="font-weight: bold; float: left; text-decoration: underline;">Search result</h5>
+            <div class="dropdown" style="text-align: right;">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    Sort results
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="#">A - Z</a></li>
+                    <li><a class="dropdown-item" href="#">Z - A</a></li>
+                </ul>
+            </div>
         </div>
+
         <div id="display-result">
         </div>
         <div class="load-more">
@@ -109,8 +53,13 @@
 
     <div id="loader" class="lds-dual-ring hidden overlay"></div>
     <div class="for-ad">
+    
         <h5 style="font-weight: bold; color: rgb(57, 165, 165);">Relevant</h5><hr>
         <div id="relevant">
+            <a href="#">Lorem ipsum dolor sit amet, consectetur</a>
+            <hr>
+            <a href="#">Lorem ipsum dolor sit amet, consectetur</a>
+            <hr>
             <a href="#">Lorem ipsum dolor sit amet, consectetur</a>
             <hr>
             <a href="#">Lorem ipsum dolor sit amet, consectetur</a>
@@ -121,7 +70,21 @@
         <input type="hidden" id="searchUrl" value="{{ route('ajax-search') }}" />
         <input type="hidden" id="suggestUrl" value="{{ route('suggest-search') }}" />
         <input type="hidden" name="suggestTitle" id="suggestTitles" value="{{ ($searchHistories) }}" />
+        <br>
     </div>
+
+    <div class="other-function">
+        <div>
+            <h5 style="font-weight: bold; color: rgb(57, 165, 165); text-align: center;">Explore new features</h5><hr>
+            <label for="">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</label><br>
+            <label for="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</label><br>
+            <br>
+            <img src="https://thumbs.dreamstime.com/b/hand-pointing-abstract-digital-text-circuit-background-advertising-media-company-concept-advertising-media-company-100570356.jpg" 
+            alt="Error display" width="95%" style="text-align: center;">
+            <center><button class="explore-btn">Explore now!</button></center>
+        </div>
+    </div>
+
     <script src="{{ asset('js/ajax.js')}}"></script>
     <script src="{{ asset('js/auto-complete.js')}}"></script>
 </body>
